@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Mykyta Balan - CV Étoilé</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      font-family: 'Segoe UI', sans-serif;
+      background: #000;
+      color: #000;
+      overflow-x: hidden;
+      cursor: none;
+    }
+
+    canvas#stars {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+canvas#cursorTrail {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 2; /* было 0 — изменили на 2 */
+  pointer-events: none;
+}
+
+    .container {
+      position: relative;
+      z-index: 1;
+      max-width: 960px;
+      margin: auto;
+      padding: 3rem 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 3rem;
+    }
+
+    header {
+      text-align: center;
+      color: #fff;
+    }
+
+    header h1 {
+      font-size: 3rem;
+    }
+
+    header p {
+      font-size: 1.2rem;
+      color: #ccc;
+    }
+
+    section {
+      background: #fff;
+      border-radius: 15px;
+      padding: 2rem;
+      box-shadow: 0 0 20px rgba(255,255,255,0.05);
+      animation: fadeIn 1s ease-in-out;
+      transition: transform 0.3s ease-in-out;
+    }
+
+    section:hover {
+      transform: translateY(-5px);
+    }
+
+    h2 {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+    }
+
+    ul {
+      padding-left: 1.2rem;
+    }
+
+    li {
+      margin-bottom: 0.5rem;
+    }
+
+    code {
+      background: #f0f0f0;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: monospace;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+  <canvas id="stars"></canvas>
+  <canvas id="cursorTrail"></canvas>
+
+  <div class="container">
+    <header>
+      <h1>Mykyta Balan</h1>
+      <p> • Passionné de technologie • </p>
+    </header>
+
+    <section>
+      <h2>Coordonnées</h2>
+      <p>📞 +33 7 83 02 39 90</p>
+      <p>✉️ nikbal200@gmail.com</p>
+      <p>📍 2 Rue des Sapins, 44600 Saint-Nazaire</p>
+    </section>
+
+    <section>
+      <h2>Langues</h2>
+      <ul>
+        <li>🇺🇦 Ukrainien — langue maternelle</li>
+        <li>🇷🇺 Russe — langue maternelle</li>
+        <li>🇫🇷 Français — niveau A2</li>
+        <li>🇬🇧 Anglais — niveau A1</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Formation</h2>
+      <p><strong>Kilian Transport College</strong></p>
+      <p>2020–2024 — Spécialité : Navigation et gestion des navires</p>
+      <p><strong>Diplôme de fin d'études secondaires</strong></p>
+      <p>Obtenu en juin 2022</p>
+      <p>Reconnu par France Éducation International</p>
+    </section>
+
+    <section>
+      <h2>Compétences & Centres d’intérêt</h2>
+      <ul>
+        <li>Création de musique électronique (FL Studio)</li>
+        <li>Développement de bots Telegram avec <code>Python</code> et <code>aiogram</code></li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Qualités personnelles</h2>
+      <ul>
+        <li>✔️ Responsable et attentif aux détails</li>
+        <li>✔️ Respectueux des règles de sécurité</li>
+        <li>✔️ Esprit d’équipe, sociabilité</li>
+        <li>✔️ Résistance au stress</li>
+      </ul>
+    </section>
+  </div>
+
+<section>
+  <h2>🎬 Mes Travaux (Vidéo)</h2>
+  <iframe width="100%" height="400"
+    src="https://youtu.be/ZGI6Pkk5_dc"
+    style="border-radius: 15px; border: none;"
+    allowfullscreen></iframe>
+</section>
+
+  <script>
+    // Звезды
+    const canvasStars = document.getElementById('stars');
+    const ctxStars = canvasStars.getContext('2d');
+    let stars = [];
+
+    function resizeStars() {
+      canvasStars.width = window.innerWidth;
+      canvasStars.height = window.innerHeight;
+    }
+
+    window.addEventListener('resize', resizeStars);
+    resizeStars();
+
+    for (let i = 0; i < 200; i++) {
+      stars.push({
+        x: Math.random() * canvasStars.width,
+        y: Math.random() * canvasStars.height,
+        radius: Math.random() * 1.2,
+        alpha: Math.random(),
+        dx: (Math.random() - 0.5) * 0.2,
+        dy: (Math.random() - 0.5) * 0.2,
+      });
+    }
+
+    function drawStars() {
+      ctxStars.clearRect(0, 0, canvasStars.width, canvasStars.height);
+      for (let star of stars) {
+        ctxStars.beginPath();
+        ctxStars.arc(star.x, star.y, star.radius, 0, 2 * Math.PI);
+        ctxStars.fillStyle = `rgba(255, 255, 255, ${star.alpha})`;
+        ctxStars.fill();
+
+        star.x += star.dx;
+        star.y += star.dy;
+        star.alpha += (Math.random() - 0.5) * 0.05;
+        if (star.alpha < 0.1) star.alpha = 0.1;
+        if (star.alpha > 1) star.alpha = 1;
+        if (star.x < 0) star.x = canvasStars.width;
+        if (star.x > canvasStars.width) star.x = 0;
+        if (star.y < 0) star.y = canvasStars.height;
+        if (star.y > canvasStars.height) star.y = 0;
+      }
+      requestAnimationFrame(drawStars);
+    }
+
+    drawStars();
+
+
+ // Млечный путь за курсором
+    const cursorCanvas = document.getElementById('cursorTrail');
+    const ctxCursor = cursorCanvas.getContext('2d');
+    resizeCursorCanvas();
+
+    let trail = [];
+
+    function resizeCursorCanvas() {
+      cursorCanvas.width = window.innerWidth;
+      cursorCanvas.height = window.innerHeight;
+    }
+
+    window.addEventListener('resize', resizeCursorCanvas);
+
+    document.addEventListener('mousemove', e => {
+      trail.push({ x: e.clientX, y: e.clientY, alpha: 1 });
+    });
+
+    function drawCursorTrail() {
+      ctxCursor.clearRect(0, 0, cursorCanvas.width, cursorCanvas.height);
+      for (let i = 0; i < trail.length; i++) {
+        const p = trail[i];
+        ctxCursor.beginPath();
+        ctxCursor.arc(p.x, p.y, 2, 0, 2 * Math.PI);
+        ctxCursor.fillStyle = `rgba(200,200,200,${p.alpha})`;
+        ctxCursor.fill();
+        p.alpha -= 0.02;
+      }
+      trail = trail.filter(p => p.alpha > 0);
+      requestAnimationFrame(drawCursorTrail);
+    }
+
+    drawCursorTrail();
+  </script>
+</body>
+</html>
